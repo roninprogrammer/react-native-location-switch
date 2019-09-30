@@ -28,11 +28,22 @@ public class LocationSwitch {
     private Callback mErrorCallback;
     private Callback mSuccessCallback;
     private int mAccuracy = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY;
-
+//    protected Context context;
+//
+//    public LocationSwitch(Context context){
+//        this.context = context.getApplicationContext();
+//    }
+//
+//    public LocationSwitch() {
+//
+//    }
 
     private LocationSwitch() {
 
     }
+
+
+
 
 
     public static LocationSwitch getInstance() {
@@ -93,23 +104,29 @@ public class LocationSwitch {
     public void isLocationEnabled(final Activity activity, final Callback successCallback,
                                   final Callback errorCallback) {
 
-        LocationManager lm = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
-        boolean gps_enabled = false;
-        boolean network_enabled = false;
 
-        try {
-            gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        } catch(Exception ex) {}
+        if(activity != null){
+            LocationManager lm = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
+            boolean gps_enabled = false;
+            boolean network_enabled = false;
 
-        try {
-            network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-        } catch(Exception ex) {}
+            try {
+                gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+            } catch(Exception ex) {}
 
-        if(gps_enabled || network_enabled) {
-            successCallback.invoke();
+            try {
+                network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+            } catch(Exception ex) {}
+
+            if(gps_enabled || network_enabled) {
+                successCallback.invoke();
+            } else {
+                errorCallback.invoke();
+            }
         } else {
-            errorCallback.invoke();
+            Log.e(TAG, "isLocationEnabled Null issue");
         }
+
     }
 
 
