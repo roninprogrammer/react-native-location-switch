@@ -104,7 +104,6 @@ public class LocationSwitch {
     public void isLocationEnabled(final Activity activity, final Callback successCallback,
                                   final Callback errorCallback) {
 
-
         if(activity != null){
             LocationManager lm = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
             boolean gps_enabled = false;
